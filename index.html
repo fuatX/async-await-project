@@ -240,10 +240,21 @@
         console.log(err);
       }
 
-      function onSuccess(position) {
+      async function onSuccess(position) {
         let lat = position.coords.latitude;
         let lng = position.coords.longitude;
-        console.log(lat, lng);
+        console.log("Enlem:", lat, "Boylam:", lng);
+        // i will use api by opincage for get location
+        const api_key = "e4c1768a140c45bfb9d6285d1b77a5da";
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${api_key}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        const country = data.results[0].components.country;
+
+        document.querySelector("#txtSearch").value = country;
+        document.querySelector("#btnSearch").click();
       }
     </script>
   </body>
